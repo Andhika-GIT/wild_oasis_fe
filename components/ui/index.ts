@@ -1,3 +1,3 @@
-import { Button, buttonVariants } from "./button";
-
-export { Button, buttonVariants };
+export * from "./button";
+export * from "./input";
+export * from "./label";
