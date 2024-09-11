@@ -1,6 +1,6 @@
-import { Counter, CabinCard } from "@/components/molecules";
-import { Cabin } from "@/types";
-import { getAllCabin } from "../action/cabin";
+import { CabinList } from "@/components/organism";
+import { LoadingSpinner } from "@/components/ui";
+import { Suspense } from "react";
 
 export const metadata = {
   title: "Cabins",
@@ -8,7 +8,6 @@ export const metadata = {
 
 export default async function Page() {
   // CHANGE
-  const cabins = await getAllCabin();
 
   return (
     <div>
@@ -24,13 +23,9 @@ export default async function Page() {
         Welcome to paradise.
       </p>
 
-      {cabins && cabins?.length > 0 && (
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 xl:gap-14">
-          {cabins?.map((cabin, index) => (
-            <CabinCard key={index} {...cabin} />
-          ))}
-        </div>
-      )}
+      <Suspense fallback={<LoadingSpinner size={50} />}>
+        <CabinList />
+      </Suspense>
     </div>
   );
 }
