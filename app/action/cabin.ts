@@ -10,3 +10,11 @@ export const getAllCabin = async (): Promise<Cabin[] | undefined> => {
     return await handleFetchResponse<Cabin[]>(response);
   } catch (e) {}
 };
+
+export const getCabinById = async (id: string): Promise<Cabin | undefined> => {
+  try {
+    const response = await fetch(`${SERVER_BASE_URL}/cabins/${id}`);
+
+    return await handleFetchResponse<Cabin>(response);
+  } catch (e) {}
+};
