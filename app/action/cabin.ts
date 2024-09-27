@@ -1,5 +1,6 @@
 import { SERVER_BASE_URL, handleFetchResponse } from "@/lib/helper";
-import { Cabin } from "@/types";
+import { Cabin, Error as ResponseError } from "@/types";
+import { notFound } from "next/navigation";
 
 export const getAllCabin = async (): Promise<Cabin[] | undefined> => {
   try {
@@ -16,5 +17,12 @@ export const getCabinById = async (id: string): Promise<Cabin | undefined> => {
     const response = await fetch(`${SERVER_BASE_URL}/cabins/${id}`);
 
     return await handleFetchResponse<Cabin>(response);
-  } catch (e) {}
+  } catch (e) {
+    const customError = e as ResponseError;
+    if (customError.code === 404) {
+      notFound();
+    } else {
+      throw new Error(customError.message);
+    }
+  }
 };
