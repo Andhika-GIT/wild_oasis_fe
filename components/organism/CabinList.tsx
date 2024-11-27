@@ -2,9 +2,13 @@ import React from "react";
 
 import { CabinCard } from "@/components/molecules";
 import { getAllCabin } from "@/app/action/cabin";
+import { NextPage } from "next";
+import { CabinCapacityFilter } from "@/types";
 
-export const CabinList = async () => {
-  const cabins = await getAllCabin();
+export const CabinList: NextPage<CabinCapacityFilter> = async ({
+  maxCapacityFilter,
+}) => {
+  const cabins = await getAllCabin({ maxCapacityFilter });
 
   return (
     <>

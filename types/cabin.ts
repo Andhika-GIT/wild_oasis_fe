@@ -7,3 +7,7 @@ export type Cabin = {
   discount: number;
   image: string;
 };
+
+export type CabinCapacityFilter = {
+  maxCapacityFilter: number | null;
+};

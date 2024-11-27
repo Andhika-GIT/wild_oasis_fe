@@ -1,13 +1,27 @@
-import { CabinList } from "@/components/organism";
+import { CabinList, Filter } from "@/components/organism";
 import { LoadingSpinner } from "@/components/ui";
+import { NextPage } from "next";
 import { Suspense } from "react";
 
 export const metadata = {
   title: "Cabins",
 };
 
-export default async function Page() {
-  // CHANGE
+type CabinPageParams = {
+  searchParams: {
+    capacity: string;
+  };
+};
+const Page: NextPage<CabinPageParams> = ({ searchParams }) => {
+  let maxCapacityFilter = null;
+
+  if (searchParams?.capacity === "small") {
+    maxCapacityFilter = 3;
+  } else if (searchParams?.capacity === "medium") {
+    maxCapacityFilter = 5;
+  } else if (searchParams?.capacity === "large") {
+    maxCapacityFilter = 7;
+  }
 
   return (
     <div>
@@ -23,9 +37,18 @@ export default async function Page() {
         Welcome to paradise.
       </p>
 
-      <Suspense fallback={<LoadingSpinner size={50} />}>
-        <CabinList />
+      <div className="flex justify-end mb-8">
+        <Filter />
+      </div>
+
+      <Suspense
+        fallback={<LoadingSpinner size={50} />}
+        key={searchParams?.capacity}
+      >
+        <CabinList maxCapacityFilter={maxCapacityFilter} />
       </Suspense>
     </div>
   );
-}
+};
+
+export default Page;
