@@ -11,3 +11,4 @@ export * from "./Counter";
 export * from "./UpdateProfileForm";
 export * from "./DateSelector";
 export * from "./ReservationForm";
+export * from "./Reservation";
