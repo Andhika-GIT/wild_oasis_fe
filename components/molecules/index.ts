@@ -8,3 +8,4 @@ export * from "./ReservationCard";
 export * from "./SelectCountry";
 export * from "./CabinCard";
 export * from "./Counter";
+export * from "./UpdateProfileForm";
