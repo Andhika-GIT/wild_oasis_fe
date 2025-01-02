@@ -1,8 +1,13 @@
 export type Cabin = {
-  id: string;
+  id: number;
   name: string;
-  maxCapacity: number;
-  regularPrice: number;
+  description: string;
+  max_capacity: number;
+  regular_price: number;
   discount: number;
   image: string;
+};
+
+export type CabinCapacityFilter = {
+  maxCapacityFilter: number | null;
 };
