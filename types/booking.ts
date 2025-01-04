@@ -10,3 +10,5 @@ export type BookingReservation = {
   created_at: string;
   cabins: { name: string; image: string };
 };
+
+export type BookingDates = string[];
