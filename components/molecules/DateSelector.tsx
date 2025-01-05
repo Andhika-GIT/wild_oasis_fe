@@ -34,8 +34,8 @@ export const DateSelector: React.FC<DateSelectorProps> = ({
   const range = { from: null, to: null };
 
   // SETTINGS
-  const minBookingLength = 1;
-  const maxBookingLength = 23;
+  const minBookingLength = setting?.min_booking_length || 1;
+  const maxBookingLength = setting?.max_booking_length || 23;
 
   return (
     <div className="flex flex-col justify-between">
