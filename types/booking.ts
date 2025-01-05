@@ -11,4 +11,4 @@ export type BookingReservation = {
   cabins: { name: string; image: string };
 };
 
-export type BookingDates = string[];
+export type BookedDates = string[];
