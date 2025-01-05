@@ -3,7 +3,7 @@ import { BookedDates, Error as ResponseError } from "@/types";
 import { notFound } from "next/navigation";
 
 export const getBookedDatesByCabinId = async (
-  id: number
+  id: number | undefined
 ): Promise<BookedDates | undefined> => {
   try {
     const response = await fetch(

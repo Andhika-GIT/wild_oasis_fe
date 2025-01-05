@@ -6,13 +6,13 @@ import { Cabin } from "@/types";
 import { NextPage } from "next";
 
 type ReservationProps = {
-  cabin: Cabin;
+  cabin: Cabin | undefined;
 };
 
 export const Reservation: NextPage<ReservationProps> = async ({ cabin }) => {
   const [setting, bookedDates] = await Promise.all([
     getSetting(),
-    getBookedDatesByCabinId(cabin.id),
+    getBookedDatesByCabinId(cabin?.id),
   ]);
 
   return (
