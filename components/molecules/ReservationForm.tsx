@@ -2,12 +2,12 @@ import { Cabin } from "@/types";
 import { NextPage } from "next";
 
 type ReservationFormProps = {
-  cabin: Cabin;
+  cabin: Cabin | undefined;
 };
 
 export const ReservationForm: NextPage<ReservationFormProps> = ({ cabin }) => {
   // CHANGE
-  const { max_capacity } = cabin;
+  const maxCapacity = cabin?.max_capacity || 0;
 
   return (
     <div className="scale-[1.01]">
@@ -38,7 +38,7 @@ export const ReservationForm: NextPage<ReservationFormProps> = ({ cabin }) => {
             <option value="" key="">
               Select number of guests...
             </option>
-            {Array.from({ length: max_capacity }, (_, i) => i + 1).map((x) => (
+            {Array.from({ length: maxCapacity }, (_, i) => i + 1).map((x) => (
               <option value={x} key={x}>
                 {x} {x === 1 ? "guest" : "guests"}
               </option>
