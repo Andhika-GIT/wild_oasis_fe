@@ -1,3 +1,4 @@
+import { ReservationReminder } from "@/components/molecules";
 import { CabinList, Filter } from "@/components/organism";
 import { LoadingSpinner } from "@/components/ui";
 import { NextPage } from "next";
@@ -46,6 +47,7 @@ const Page: NextPage<CabinPageParams> = ({ searchParams }) => {
         key={searchParams?.capacity}
       >
         <CabinList maxCapacityFilter={maxCapacityFilter} />
+        <ReservationReminder />
       </Suspense>
     </div>
   );

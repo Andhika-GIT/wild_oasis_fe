@@ -1,8 +1,10 @@
 import { getCabinById } from "@/app/action/cabin";
+import { Reservation } from "@/components/molecules";
+import { LoadingSpinner } from "@/components/ui";
 import { EyeSlashIcon, MapPinIcon, UsersIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 
-import React from "react";
+import React, { Suspense } from "react";
 
 export async function generateMetadata({
   params,
@@ -60,9 +62,13 @@ const page = async ({ params }: { params: { cabinId: string } }) => {
       </div>
 
       <div>
-        <h2 className="text-5xl font-semibold text-center">
+        <h2 className="text-5xl mb-5 font-semibold text-center">
           Reserve today. Pay on arrival.
         </h2>
+
+        <Suspense fallback={<LoadingSpinner size={20} />}>
+          <Reservation cabin={cabin} />
+        </Suspense>
       </div>
     </div>
   );
