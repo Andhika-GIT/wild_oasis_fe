@@ -12,3 +12,4 @@ export * from "./UpdateProfileForm";
 export * from "./DateSelector";
 export * from "./ReservationForm";
 export * from "./Reservation";
+export * from "./ReservationReminder";
