@@ -1,14 +1,14 @@
 "use client"
 
 import { SERVER_BASE_URL, handleFetchResponse } from "@/lib/helper";
+import { loginSchemaType } from "@/lib/schemas/login";
 import { ApiResponse, Cabin, Error as ResponseError } from "@/types";
-import { AuthSignInRequestBody } from "@/types";
 
 type SignInResponse = ApiResponse<string>;
 
 
 export const signIn = async (
-  formData: AuthSignInRequestBody
+  formData: loginSchemaType
 ): Promise<SignInResponse> => {
   const BASE_URL = `${SERVER_BASE_URL}/auth/sign-in`;
 
