@@ -1,3 +1,5 @@
+"use client"
+
 import { SERVER_BASE_URL, handleFetchResponse } from "@/lib/helper";
 import { ApiResponse, Cabin, Error as ResponseError } from "@/types";
 import { AuthSignInRequestBody } from "@/types";

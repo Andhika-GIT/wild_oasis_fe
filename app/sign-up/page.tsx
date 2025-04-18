@@ -1,18 +1,10 @@
 import {
   Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
+  CardContent, CardFooter,
   CardHeader,
   CardTitle,
   Label,
-  Input,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-  Button,
+  Input, Button
 } from "@/components/ui";
 import Link from "next/link";
 
