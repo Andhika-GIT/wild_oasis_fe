@@ -11,13 +11,21 @@ import {
   Button,
 } from "@/components/ui";
 import Link from "next/link";
+import { Error as ApiError } from "@/types";
+import { signIn } from "@/app/action/auth";
 
 // form
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, loginSchemaType } from "@/lib/schemas/login";
+import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 
 export const LoginForm = () => {
+  const [credentialErrorMessage, setCredentialErrorMessage] = useState<
+    string | null
+  >(null);
+
   // form
   const {
     register,
@@ -27,13 +35,39 @@ export const LoginForm = () => {
     resolver: zodResolver(loginSchema),
   });
 
+  // Mutation
+  const { mutate } = useMutation({
+    mutationFn: (formData: loginSchemaType) => {
+      setCredentialErrorMessage(null);
+      return signIn(formData);
+    },
+    onSuccess: () => {
+      //   window.location.href = "/";
+    },
+    onError: (error: ApiError) => {
+      if (error?.code === 400) {
+        console.log(error);
+        setCredentialErrorMessage("Invalid Username or Password");
+      } else {
+        setCredentialErrorMessage(
+          "Something went wrong please try again later"
+        );
+      }
+    },
+  });
+
   return (
     <Card className="w-[350px]">
       <CardHeader>
         <CardTitle>Enter your email and password</CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit(() => {})}>
+      {credentialErrorMessage && (
+          <p className="text-red-600 text-sm mt-2 text-center">
+            {credentialErrorMessage}
+          </p>
+        )}
+        <form onSubmit={handleSubmit((formData) => mutate(formData))}>
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="email">Email</Label>

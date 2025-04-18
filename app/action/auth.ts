@@ -4,12 +4,10 @@ import { SERVER_BASE_URL, handleFetchResponse } from "@/lib/helper";
 import { loginSchemaType } from "@/lib/schemas/login";
 import { ApiResponse, Cabin, Error as ResponseError } from "@/types";
 
-type SignInResponse = ApiResponse<string>;
-
 
 export const signIn = async (
   formData: loginSchemaType
-): Promise<SignInResponse> => {
+): Promise<string | undefined> => {
   const BASE_URL = `${SERVER_BASE_URL}/auth/sign-in`;
 
   try {
@@ -18,13 +16,12 @@ export const signIn = async (
       body: JSON.stringify(formData),
     });
 
-    // return await handleFetchResponse<string>(response);
-    const result: ApiResponse<string> = await response.json();
+    return await handleFetchResponse<string>(response);
+    // const result: ApiResponse<string> = await response.json();
 
-    return result
   } catch (e) {
     const customError = e as ResponseError;
-    return customError
+    throw customError
   }
 };
 
