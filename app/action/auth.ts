@@ -2,6 +2,7 @@
 
 import { SERVER_BASE_URL, handleFetchResponse } from "@/lib/helper";
 import { loginSchemaType } from "@/lib/schemas/login";
+import { signUpSchemaType } from "@/lib/schemas/sign-up";
 import { ApiResponse, Cabin, Error as ResponseError } from "@/types";
 
 
@@ -17,7 +18,6 @@ export const signIn = async (
     });
 
     return await handleFetchResponse<string>(response);
-    // const result: ApiResponse<string> = await response.json();
 
   } catch (e) {
     const customError = e as ResponseError;
@@ -25,21 +25,22 @@ export const signIn = async (
   }
 };
 
-// export const signUp = async ({
-//     maxCapacityFilter,
-//   }: CabinCapacityFilter): Promise<Cabin[] | undefined> => {
-//     const BASE_URL = maxCapacityFilter
-//       ? `${SERVER_BASE_URL}/cabins?max_capacity=${maxCapacityFilter}`
-//       : `${SERVER_BASE_URL}/cabins`;
+export const signUp = async (
+  formData: signUpSchemaType
+): Promise<string | undefined> => {
+  const BASE_URL = `${SERVER_BASE_URL}/auth/sign-up`;
 
-//     try {
-//       const response = await fetch(BASE_URL, {
-//         cache: "no-cache",
-//       });
+  try {
+    const response = await fetch(BASE_URL, {
+      method: "POST",
+      body: JSON.stringify(formData),
+    });
 
-//       return await handleFetchResponse<Cabin[]>(response);
-//     } catch (e) {
-//       const customError = e as ResponseError;
-//       throw new Error(customError.message);
-//     }
-//   };
+    return await handleFetchResponse<string>(response);
+
+  } catch (e) {
+    const customError = e as ResponseError;
+    throw customError
+  }
+};
+
