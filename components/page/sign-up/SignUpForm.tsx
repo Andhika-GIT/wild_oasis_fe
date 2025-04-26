@@ -68,15 +68,15 @@ export const SignUpForm = () => {
         <form onSubmit={handleSubmit((formData) => mutate(formData))}>
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="username">Username</Label>
+              <Label htmlFor="fullname">Fullname</Label>
               <Input
-                id="username"
-                placeholder="Enter your username"
-                {...register("username")}
+                id="fullname"
+                placeholder="Enter your fullname"
+                {...register("fullname")}
               />
-              {errors.username && (
+              {errors.fullname && (
                 <p className="text-sm text-red-500 mt-1">
-                  {errors.username.message}
+                  {errors.fullname.message}
                 </p>
               )}
             </div>
