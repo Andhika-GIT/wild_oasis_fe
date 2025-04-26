@@ -41,7 +41,7 @@ export const SignUpForm = () => {
       return signUp(formData);
     },
     onSuccess: () => {
-      //   window.location.href = "/";
+      window.location.href = "/";
     },
     onError: (error: ApiError) => {
       if (error?.code === 400) {
