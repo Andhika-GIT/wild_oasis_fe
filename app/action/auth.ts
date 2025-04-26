@@ -14,7 +14,11 @@ export const signIn = async (
   try {
     const response = await fetch(BASE_URL, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(formData),
+      credentials: "include",
     });
 
     return await handleFetchResponse<string>(response);
@@ -33,7 +37,11 @@ export const signUp = async (
   try {
     const response = await fetch(BASE_URL, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(formData),
+      credentials: "include",
     });
 
     return await handleFetchResponse<string>(response);

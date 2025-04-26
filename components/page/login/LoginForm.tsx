@@ -42,7 +42,7 @@ export const LoginForm = () => {
       return signIn(formData);
     },
     onSuccess: () => {
-      //   window.location.href = "/";
+        window.location.href = "/";
     },
     onError: (error: ApiError) => {
       if (error?.code === 400) {
