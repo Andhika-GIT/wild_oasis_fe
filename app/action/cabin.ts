@@ -24,7 +24,10 @@ export const getAllCabin = async ({
 
 export const getCabinById = async (id: string): Promise<Cabin | undefined> => {
   try {
-    const response = await fetch(`${SERVER_BASE_URL}/cabins/${id}`);
+    const response = await fetch(`${SERVER_BASE_URL}/cabins/${id}`, {
+      cache: 'no-cache'
+    });
+    
 
     return await handleFetchResponse<Cabin>(response);
   } catch (e) {

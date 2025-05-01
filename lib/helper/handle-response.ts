@@ -5,8 +5,9 @@ export const handleFetchResponse = async <T>(
 ): Promise<T> => {
   const result: ApiResponse<T> = await response.json();
 
-  if (!response.ok) {
+  if (!result.success) {
     const error: Error = {
+      success: false,
       code: result.code || response.status,
       message: result.message || "Something went wrong",
     };
