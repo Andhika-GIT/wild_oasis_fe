@@ -1,4 +1,4 @@
-
+'use server'
 import { SERVER_BASE_URL, handleFetchResponse } from "@/lib/helper";
 import { CurrentUser, Error as ResponseError } from "@/types";
 import { cookies } from "next/headers";
@@ -22,4 +22,5 @@ export const getCurrentUser = async () : Promise<CurrentUser | undefined> => {
     } catch(e) {
       throw e as ResponseError
     }
-  }
+}
+
