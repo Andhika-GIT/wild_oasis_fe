@@ -53,21 +53,5 @@ export const signUp = async (
 };
 
 
-export const getCurrentUser = async () : Promise<CurrentUser | undefined> => {
-  const BASE_URL = `${SERVER_BASE_URL}/auth/me`;
 
-  try {
-    const response = await fetch(BASE_URL, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-    })
-
-    return await handleFetchResponse(response)
-  } catch(e) {
-    throw e as ResponseError
-  }
-}
 
