@@ -3,7 +3,7 @@
 import { SERVER_BASE_URL, handleFetchResponse } from "@/lib/helper";
 import { loginSchemaType } from "@/lib/schemas/login";
 import { signUpSchemaType } from "@/lib/schemas/sign-up";
-import { ApiResponse, Cabin, Error as ResponseError } from "@/types";
+import { CurrentUser, Error as ResponseError } from "@/types";
 
 
 export const signIn = async (
@@ -51,4 +51,23 @@ export const signUp = async (
     throw customError
   }
 };
+
+
+export const getCurrentUser = async () : Promise<CurrentUser | undefined> => {
+  const BASE_URL = `${SERVER_BASE_URL}/auth/me`;
+
+  try {
+    const response = await fetch(BASE_URL, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    })
+
+    return await handleFetchResponse(response)
+  } catch(e) {
+    throw e as ResponseError
+  }
+}
 
