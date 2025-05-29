@@ -1,3 +1,5 @@
+"use server"
+
 import { SERVER_BASE_URL, handleFetchResponse } from "@/lib/helper";
 import { BookedDates, Booking, Error as ResponseError } from "@/types";
 import { notFound } from "next/navigation";
@@ -51,7 +53,8 @@ export const deleteCurrentUserBookings = async (id: string): Promise<
   string | undefined
 > => {
   try {
-    const response = await fetch(`${SERVER_BASE_URL}/booking/delete${id}`, {
+    console.log(SERVER_BASE_URL)
+    const response = await fetch(`${SERVER_BASE_URL}/booking/delete/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
