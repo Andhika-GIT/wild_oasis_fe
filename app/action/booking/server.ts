@@ -49,11 +49,10 @@ export const getCurrentUserBookings = async (): Promise<
 };
 
 
-export const deleteCurrentUserBookings = async (id: string): Promise<
-  string | undefined
+export const deleteCurrentUserBookings = async (id: number): Promise<
+  void
 > => {
   try {
-    console.log(SERVER_BASE_URL)
     const response = await fetch(`${SERVER_BASE_URL}/booking/delete/${id}`, {
       method: "DELETE",
       headers: {
@@ -64,7 +63,7 @@ export const deleteCurrentUserBookings = async (id: string): Promise<
 
     await handleFetchResponse<string>(response);
     revalidatePath("/account/reservations")
-    return
+    return;
   } catch (e) {
     const customError = e as ResponseError;
     if (customError.code === 404) {
