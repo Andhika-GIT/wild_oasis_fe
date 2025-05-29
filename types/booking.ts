@@ -1,16 +1,3 @@
-export type BookingReservation = {
-  id: number;
-  guestId: number;
-  startDate: string;
-  endDate: string;
-  numNights: number;
-  totalPrice: number;
-  numGuests: number;
-  status: string;
-  created_at: string;
-  cabins: { name: string; image: string };
-};
-
 export type Booking = {
   id: number;
   start_date: string;     // ISO 8601 format (timestamp string)
@@ -24,7 +11,8 @@ export type Booking = {
   has_breakfast: boolean;
   is_paid: boolean;
   observations: string;
-  cabin_id: number;
+  created_at: string;
+  cabin: { name: string; image: string };
 };
 
 export type BookedDates = string[];

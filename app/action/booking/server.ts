@@ -23,7 +23,7 @@ export const getBookedDatesByCabinId = async (
 };
 
 export const getCurrentUserBookings = async (): Promise<
-  Booking | undefined
+  Booking[] | undefined
 > => {
   try {
     const response = await fetch(`${SERVER_BASE_URL}/booking/me`, {
@@ -34,7 +34,7 @@ export const getCurrentUserBookings = async (): Promise<
       },
     });
 
-    return await handleFetchResponse<Booking>(response);
+    return await handleFetchResponse<Booking[]>(response);
   } catch (e) {
     const customError = e as ResponseError;
     if (customError.code === 404) {
