@@ -12,7 +12,7 @@ export type Booking = {
   is_paid: boolean;
   observations: string;
   created_at: string;
-  cabin: { name: string; image: string };
+  cabin: { name: string; image: string, max_capacity: number };
 };
 
 export type BookedDates = string[];
