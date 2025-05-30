@@ -55,7 +55,12 @@ const EditReservationForm: React.FC<EditReservationForm> = ({
       </div>
 
       <div className="flex justify-end items-center gap-6">
-        <Button>Update reservation</Button>
+        <Button
+          variant="link"
+          className="hover:text-accent-400 transition-colors p-4 bg-stone-900"
+        >
+          Update reservation
+        </Button>
       </div>
     </form>
   );
