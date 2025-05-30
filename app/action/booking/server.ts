@@ -53,7 +53,7 @@ export const deleteCurrentUserBookings = async (id: number): Promise<
   void
 > => {
   try {
-    const response = await fetch(`${SERVER_BASE_URL}/booking/delete/${id}`, {
+    const response = await fetch(`${SERVER_BASE_URL}/booking/me/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -64,6 +64,29 @@ export const deleteCurrentUserBookings = async (id: number): Promise<
     await handleFetchResponse<string>(response);
     revalidatePath("/account/reservations")
     return;
+  } catch (e) {
+    const customError = e as ResponseError;
+    if (customError.code === 404) {
+      notFound();
+    } else {
+      throw new Error(customError.message);
+    }
+  }
+};
+
+export const getSpesificUserBooking = async (id: number): Promise<
+  Booking | undefined
+> => {
+  try {
+    const response = await fetch(`${SERVER_BASE_URL}/booking/me/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: cookies().toString(),
+      },
+    });
+
+    return await handleFetchResponse<Booking>(response);
   } catch (e) {
     const customError = e as ResponseError;
     if (customError.code === 404) {
