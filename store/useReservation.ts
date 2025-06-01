@@ -1,4 +1,4 @@
-import { DateRange } from "react-day-picker";
+import { DateRange, SelectRangeEventHandler } from "react-day-picker";
 import { create } from "zustand";
 
 type States = {
@@ -6,7 +6,7 @@ type States = {
 };
 
 type Actions = {
-  setRange: (range: DateRange) => void;
+  setRange: SelectRangeEventHandler;
   resetRange: () => void;
 };
 

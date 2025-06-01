@@ -5,7 +5,7 @@ import { CabinCapacityFilter } from "@/types";
 
 export const getAllCabin = async ({
   maxCapacityFilter,
-}: CabinCapacityFilter): Promise<Cabin[] | undefined> => {
+}: CabinCapacityFilter): Promise<Cabin[]> => {
   const BASE_URL = maxCapacityFilter
     ? `${SERVER_BASE_URL}/cabins?max_capacity=${maxCapacityFilter}`
     : `${SERVER_BASE_URL}/cabins`;
@@ -22,12 +22,11 @@ export const getAllCabin = async ({
   }
 };
 
-export const getCabinById = async (id: string): Promise<Cabin | undefined> => {
+export const getCabinById = async (id: string): Promise<Cabin> => {
   try {
     const response = await fetch(`${SERVER_BASE_URL}/cabins/${id}`, {
-      cache: 'no-cache'
+      cache: "no-cache",
     });
-    
 
     return await handleFetchResponse<Cabin>(response);
   } catch (e) {

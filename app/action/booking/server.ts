@@ -1,4 +1,4 @@
-"use server"
+"use server";
 
 import { SERVER_BASE_URL, handleFetchResponse } from "@/lib/helper";
 import { BookedDates, Booking, Error as ResponseError } from "@/types";
@@ -8,7 +8,7 @@ import { revalidatePath } from "next/cache";
 
 export const getBookedDatesByCabinId = async (
   id: number | undefined
-): Promise<BookedDates | undefined> => {
+): Promise<BookedDates> => {
   try {
     const response = await fetch(
       `${SERVER_BASE_URL}/booking/booked-dates/cabin/${id}`
@@ -48,10 +48,7 @@ export const getCurrentUserBookings = async (): Promise<
   }
 };
 
-
-export const deleteCurrentUserBookings = async (id: number): Promise<
-  void
-> => {
+export const deleteCurrentUserBookings = async (id: number): Promise<void> => {
   try {
     const response = await fetch(`${SERVER_BASE_URL}/booking/me/${id}`, {
       method: "DELETE",
@@ -62,7 +59,7 @@ export const deleteCurrentUserBookings = async (id: number): Promise<
     });
 
     await handleFetchResponse<string>(response);
-    revalidatePath("/account/reservations")
+    revalidatePath("/account/reservations");
     return;
   } catch (e) {
     const customError = e as ResponseError;
@@ -74,9 +71,9 @@ export const deleteCurrentUserBookings = async (id: number): Promise<
   }
 };
 
-export const getSpesificUserBooking = async (id: number): Promise<
-  Booking | undefined
-> => {
+export const getSpesificUserBooking = async (
+  id: number
+): Promise<Booking | undefined> => {
   try {
     const response = await fetch(`${SERVER_BASE_URL}/booking/me/${id}`, {
       method: "GET",

@@ -6,7 +6,7 @@ import { Cabin } from "@/types";
 import { NextPage } from "next";
 
 type ReservationProps = {
-  cabin: Cabin | undefined;
+  cabin: Cabin;
 };
 
 export const Reservation: NextPage<ReservationProps> = async ({ cabin }) => {
