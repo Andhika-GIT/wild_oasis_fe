@@ -1,8 +1,17 @@
 "use client";
 
+import { updateCurrentUserBooking } from "@/app/action/booking/client";
 import { Button } from "@/components/ui";
+import {
+  updateReservationSchemaType,
+  updateReservationSchema,
+} from "@/lib/schemas/update-reservation";
 import { Booking } from "@/types";
-import React from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { ApiError } from "next/dist/server/api-utils";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 
 type EditReservationForm = {
   booking: Booking | undefined;
@@ -13,21 +22,55 @@ const EditReservationForm: React.FC<EditReservationForm> = ({
   booking,
   bookingId,
 }) => {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  // form state
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm<updateReservationSchemaType>({
+    resolver: zodResolver(updateReservationSchema),
+    defaultValues: {
+      num_guests: booking?.num_guests || 0,
+      observations: booking?.observations || "",
+    },
+  });
+
+  // update form mutation
+  const { mutate } = useMutation({
+    mutationFn: (formData: updateReservationSchemaType) => {
+      console.log(formData);
+      setErrorMessage(null);
+      return updateCurrentUserBooking(parseInt(bookingId), formData);
+    },
+    onSuccess: () => {
+      console.log("success");
+    },
+    onError: (error: ApiError) => {
+      setErrorMessage(error.message);
+    },
+  });
+
   return (
     <form
+      onSubmit={handleSubmit((data) => mutate(data))}
       //   action={updateBooking}
       className="bg-primary-900 py-8 px-12 text-lg flex gap-6 flex-col"
     >
       <input type="hidden" value={bookingId} name="bookingId" />
 
       <div className="space-y-2">
-        <label htmlFor="numGuests">How many guests?</label>
+        <label htmlFor="num_guests">How many guests?</label>
         <select
-          name="numGuests"
-          id="numGuests"
-          defaultValue={booking.num_guests}
+          {...register("num_guests", {
+            setValueAs: (v) => parseInt(v),
+          })}
+          name="num_guests"
+          id="num_guests"
           className="px-5 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm"
-          required
         >
           <option value="" key="">
             Select number of guests...
@@ -41,6 +84,9 @@ const EditReservationForm: React.FC<EditReservationForm> = ({
             </option>
           ))}
         </select>
+        {errors.num_guests && (
+          <p className="text-red-500">{errors.num_guests.message}</p>
+        )}
       </div>
 
       <div className="space-y-2">
@@ -48,11 +94,17 @@ const EditReservationForm: React.FC<EditReservationForm> = ({
           Anything we should know about your stay?
         </label>
         <textarea
+          {...register("observations")}
           name="observations"
-          defaultValue={booking.observations}
           className="px-5 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm"
         />
+        {errors.observations && (
+          <p className="text-red-500">{errors.observations.message}</p>
+        )}
       </div>
+
+      {/* error message */}
+      {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
       <div className="flex justify-end items-center gap-6">
         <Button
