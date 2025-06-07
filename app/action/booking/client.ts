@@ -46,6 +46,6 @@ export const createBooking = async (
     return await handleFetchResponse<String>(response);
   } catch (e) {
     const customError = e as ResponseError;
-      throw new Error(customError.message);
+    throw customError;
   }
 };

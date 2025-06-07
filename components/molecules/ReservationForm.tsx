@@ -15,6 +15,7 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { createBooking } from "@/app/action/booking/client";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 type ReservationFormProps = {
   cabin: Cabin;
@@ -23,11 +24,12 @@ type ReservationFormProps = {
 export const ReservationForm: NextPage<ReservationFormProps> = ({ cabin }) => {
   // CHANGE
   const { range } = useReservation();
+  const router = useRouter();
+
   const [credentialErrorMessage, setCredentialErrorMessage] = useState<
     string | null
   >(null);
   const { max_capacity } = cabin;
-
 
   const {
     register,
@@ -62,9 +64,13 @@ export const ReservationForm: NextPage<ReservationFormProps> = ({ cabin }) => {
       return createBooking(bookingData);
     },
     onSuccess: () => {
-      toast.success("Sucessfully create booking")
+      toast.success("Sucessfully create booking");
     },
     onError: (error: ApiError) => {
+      if (error.code === 401) {
+        toast.warning("please sign in first");
+        return router.push('/login')
+      }
       setCredentialErrorMessage(error.message);
     },
   });
