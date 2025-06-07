@@ -12,9 +12,10 @@ import { useMutation } from "@tanstack/react-query";
 import { ApiError } from "next/dist/server/api-utils";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 type EditReservationForm = {
-  booking: Booking | undefined;
+  booking: Booking;
   bookingId: string;
 };
 
@@ -47,7 +48,7 @@ const EditReservationForm: React.FC<EditReservationForm> = ({
       return updateCurrentUserBooking(parseInt(bookingId), formData);
     },
     onSuccess: () => {
-      console.log("success");
+      toast.success("Succesfully update booking")
     },
     onError: (error: ApiError) => {
       setErrorMessage(error.message);

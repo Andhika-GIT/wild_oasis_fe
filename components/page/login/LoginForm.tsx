@@ -20,11 +20,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, loginSchemaType } from "@/lib/schemas/login";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export const LoginForm = () => {
   const [credentialErrorMessage, setCredentialErrorMessage] = useState<
     string | null
   >(null);
+
+  const router = useRouter();
 
   // form
   const {
@@ -42,7 +46,8 @@ export const LoginForm = () => {
       return signIn(formData);
     },
     onSuccess: () => {
-        window.location.href = "/";
+      toast.success("Successfully logged in");
+      router.refresh();
     },
     onError: (error: ApiError) => {
       if (error?.code === 400) {
@@ -62,7 +67,7 @@ export const LoginForm = () => {
         <CardTitle>Enter your email and password</CardTitle>
       </CardHeader>
       <CardContent>
-      {credentialErrorMessage && (
+        {credentialErrorMessage && (
           <p className="text-red-600 text-sm mt-2 text-center">
             {credentialErrorMessage}
           </p>

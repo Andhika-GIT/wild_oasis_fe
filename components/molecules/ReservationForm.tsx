@@ -14,6 +14,7 @@ import { Error as ApiError } from "@/types";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { createBooking } from "@/app/action/booking/client";
+import { toast } from "sonner";
 
 type ReservationFormProps = {
   cabin: Cabin;
@@ -61,7 +62,7 @@ export const ReservationForm: NextPage<ReservationFormProps> = ({ cabin }) => {
       return createBooking(bookingData);
     },
     onSuccess: () => {
-      window.location.href = "/";
+      toast.success("Sucessfully create booking")
     },
     onError: (error: ApiError) => {
       setCredentialErrorMessage(error.message);

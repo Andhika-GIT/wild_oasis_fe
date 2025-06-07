@@ -4,3 +4,4 @@ export * from "./label";
 export * from "./LoadingSpinner";
 export * from "./card";
 export * from "./select";
+export * from "./sonner"

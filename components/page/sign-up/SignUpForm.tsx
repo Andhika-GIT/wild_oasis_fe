@@ -13,6 +13,7 @@ import {
 import { Error as ApiError } from "@/types";
 import { signUp } from "@/app/action/auth";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 // form
 import { useForm } from "react-hook-form";
@@ -20,11 +21,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpSchema, signUpSchemaType } from "@/lib/schemas/sign-up";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 export const SignUpForm = () => {
   const [credentialErrorMessage, setCredentialErrorMessage] = useState<
     string | null
   >(null);
+
+  const router = useRouter();
 
   const {
     register,
@@ -41,7 +45,8 @@ export const SignUpForm = () => {
       return signUp(formData);
     },
     onSuccess: () => {
-      window.location.href = "/";
+      toast.success("Sucessfully sign up");
+      router.refresh();
     },
     onError: (error: ApiError) => {
       if (error?.code === 400) {
@@ -101,7 +106,7 @@ export const SignUpForm = () => {
                 placeholder="Enter your password"
                 {...register("password")}
               />
-               {errors.password && (
+              {errors.password && (
                 <p className="text-sm text-red-500 mt-1">
                   {errors.password.message}
                 </p>
