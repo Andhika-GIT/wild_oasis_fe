@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Header } from "@/components/molecules";
+import { Toaster } from "@/components/ui";
 import "./globals.css";
 
 import { Josefin_Sans } from "next/font/google";
@@ -35,6 +36,7 @@ export default function RootLayout({
 
           <div className="flex-1 px-8 py-12 grid">
             <main className="max-w-7xl mx-auto w-full">{children}</main>
+            <Toaster richColors position="bottom-right" />
           </div>
         </body>
       </html>

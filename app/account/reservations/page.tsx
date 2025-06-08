@@ -1,13 +1,13 @@
+import { getCurrentUserBookings } from "@/app/action/booking";
 import { ReservationCard } from "@/components/molecules";
-import { BookingReservation } from "@/types";
 
 export const metadata = {
   title: "Reservations",
 };
 
-export default function Page() {
+export default async function Page() {
   // CHANGE
-  const bookings: BookingReservation[] | [] = [];
+  const bookings = await getCurrentUserBookings()
 
   return (
     <div>
@@ -15,7 +15,7 @@ export default function Page() {
         Your reservations
       </h2>
 
-      {bookings.length === 0 ? (
+      {bookings?.length === 0 ? (
         <p className="text-lg">
           You have no reservations yet. Check out our{" "}
           <a className="underline text-accent-500" href="/cabins">

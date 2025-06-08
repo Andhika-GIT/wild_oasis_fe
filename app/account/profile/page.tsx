@@ -1,13 +1,21 @@
-import { SelectCountry, UpdateProfileForm } from "@/components/molecules";
+import { UpdateProfileForm } from "@/components/molecules";
+import { getCountries } from "@/app/action/country";
+import { getCurrentUser } from "@/app/action/user";
+
 
 export const metadata = {
   title: "Update profile",
 };
 
-export default function Page() {
-  // CHANGE
-  const countryFlag = "pt.jpg";
-  const nationality = "portugal";
+export default async function Page() {
+
+  const defaultCountry = "France";
+
+  const [currentUser, countries] = await Promise.all([
+    getCurrentUser(),
+    getCountries(),
+  ]);
+
 
   return (
     <div>
@@ -20,14 +28,7 @@ export default function Page() {
         faster and smoother. See you soon!
       </p>
 
-      <UpdateProfileForm>
-        <SelectCountry
-          name="nationality"
-          id="nationality"
-          className="px-5 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm"
-          defaultCountry={nationality}
-        />
-      </UpdateProfileForm>
+      <UpdateProfileForm currentUser={currentUser} countries={countries || [] }/>
     </div>
   );
 }

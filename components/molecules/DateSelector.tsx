@@ -2,26 +2,31 @@
 
 import { useState } from "react";
 import { BookedDates, Cabin, Setting } from "@/types";
-import { isWithinInterval } from "date-fns";
+import {
+  differenceInDays,
+  isPast,
+  isSameDay,
+  isWithinInterval,
+} from "date-fns";
 import { DayPicker, DateRange } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import { useReservation } from "@/store";
 
 type DateSelectorProps = {
-  cabin: Cabin | undefined;
+  cabin: Cabin;
   setting: Setting | undefined;
-  bookedDates: BookedDates | undefined;
+  bookedDates: BookedDates;
 };
 
-// function isAlreadyBooked(range, datesArr) {
-//   return (
-//     range.from &&
-//     range.to &&
-//     datesArr.some((date) =>
-//       isWithinInterval(date, { start: range.from, end: range.to })
-//     )
-//   );
-// }
+function isAlreadyBooked(range: any, datesArr: BookedDates) {
+  return (
+    range.from &&
+    range.to &&
+    datesArr?.some((date) =>
+      isWithinInterval(date, { start: range.from, end: range.to })
+    )
+  );
+}
 
 export const DateSelector: React.FC<DateSelectorProps> = ({
   cabin,
@@ -30,11 +35,19 @@ export const DateSelector: React.FC<DateSelectorProps> = ({
 }) => {
   const { range, setRange, resetRange } = useReservation((state) => state);
 
-  // CHANGE
-  const regularPrice = 23;
-  const discount = 23;
-  const numNights = 23;
-  const cabinPrice = 23;
+  const displayRange = isAlreadyBooked(range, bookedDates)
+    ? {
+        from: undefined,
+        to: undefined,
+      }
+    : range;
+
+  const { regular_price, discount } = cabin;
+  const numNights = differenceInDays(
+    displayRange?.to || "",
+    displayRange?.from || ""
+  );
+  const cabinPrice = numNights * (regular_price - discount);
 
   // SETTINGS
   const minBookingLength = setting?.min_booking_length || 1;
@@ -48,13 +61,16 @@ export const DateSelector: React.FC<DateSelectorProps> = ({
         min={minBookingLength + 1}
         max={maxBookingLength}
         onSelect={setRange}
-        selected={range}
+        selected={displayRange}
         fromMonth={new Date()}
         fromDate={new Date()}
         toYear={new Date().getFullYear() + 5}
         captionLayout="dropdown"
         numberOfMonths={2}
-        required
+        disabled={(currentDate) =>
+          isPast(currentDate) ||
+          bookedDates?.some((date) => isSameDay(date, currentDate))
+        }
       />
 
       <div className="flex items-center justify-between px-8 bg-accent-500 text-primary-800 h-[72px]">
@@ -62,13 +78,13 @@ export const DateSelector: React.FC<DateSelectorProps> = ({
           <p className="flex gap-2 items-baseline">
             {discount > 0 ? (
               <>
-                <span className="text-2xl">${regularPrice - discount}</span>
+                <span className="text-2xl">${regular_price - discount}</span>
                 <span className="line-through font-semibold text-primary-700">
-                  ${regularPrice}
+                  ${regular_price}
                 </span>
               </>
             ) : (
-              <span className="text-2xl">${regularPrice}</span>
+              <span className="text-2xl">${regular_price}</span>
             )}
             <span className="">/night</span>
           </p>

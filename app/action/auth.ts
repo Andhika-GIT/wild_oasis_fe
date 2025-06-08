@@ -3,7 +3,7 @@
 import { SERVER_BASE_URL, handleFetchResponse } from "@/lib/helper";
 import { loginSchemaType } from "@/lib/schemas/login";
 import { signUpSchemaType } from "@/lib/schemas/sign-up";
-import { ApiResponse, Cabin, Error as ResponseError } from "@/types";
+import { CurrentUser, Error as ResponseError } from "@/types";
 
 
 export const signIn = async (
@@ -51,4 +51,7 @@ export const signUp = async (
     throw customError
   }
 };
+
+
+
 
